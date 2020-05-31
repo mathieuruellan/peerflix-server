@@ -1,10 +1,16 @@
-FROM node:6-alpine
+FROM node:buster-slim
 
 # Update latest available packages,
 # add 'app' user, and make temp directory
-RUN apk --no-cache add ffmpeg git && \
-    npm install -g grunt-cli bower && \
-    adduser -D app && \
+
+ENV DEBIAN_FRONTEND noninteractive
+
+RUN apt update -yq \
+    && apt install -yq ffmpeg git trickle bzip2 \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+RUN npm install -g grunt-cli bower && \
+    useradd app && \
     mkdir /tmp/torrent-stream && \
     chown app:app /tmp/torrent-stream
 
@@ -18,7 +24,10 @@ RUN npm install && \
     bower install && \
     grunt build
 
+ENV LIMIT_UPLOAD 50
+ENV LIMIT_DOWNLOAD 9000
+
 VOLUME [ "/tmp/torrent-stream" ]
 EXPOSE 6881 9000
 
-CMD [ "npm", "start" ]
+CMD ["sh", "-c", "trickle -u ${LIMIT_UPLOAD}} -d ${LIMIT_DOWNLOAD}} npm start"]
