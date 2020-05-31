@@ -24,6 +24,7 @@ RUN npm install && \
     bower install && \
     grunt build
 
+#bandwidth limites
 ENV LIMIT_UPLOAD 50
 ENV LIMIT_DOWNLOAD 9000
 
