@@ -28,7 +28,8 @@ RUN npm install && \
 ENV LIMIT_UPLOAD 50
 ENV LIMIT_DOWNLOAD 9000
 
-VOLUME [ "/tmp/torrent-stream" ]
+VOLUME [ "/tmp/torrent-stream", "/home/app/.config/peerflix-server" ]
 EXPOSE 6881 9000
 
-CMD ["sh", "-c", "trickle -u ${LIMIT_UPLOAD}} -d ${LIMIT_DOWNLOAD}} npm start"]
+CMD ["sh", "-c", "trickle -t 0.1 -s -u ${LIMIT_UPLOAD}} -d ${LIMIT_DOWNLOAD}} npm start"]
+
