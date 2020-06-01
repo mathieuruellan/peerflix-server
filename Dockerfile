@@ -6,7 +6,7 @@ FROM node:buster-slim AS builder
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt update -yq \
-    && apt install -yq ffmpeg git trickle bzip2 \
+    && apt install -yq git bzip2 \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN npm install -g grunt-cli bower && \
@@ -39,6 +39,8 @@ RUN chown app:app /home/app -R
 USER app
 
 RUN npm install --production
+
+COPY entrypoint.sh //home/app/entrypoint.sh
 
 #bandwidth limites
 ENV LIMIT_UPLOAD 50
