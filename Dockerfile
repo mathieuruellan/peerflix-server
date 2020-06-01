@@ -40,8 +40,6 @@ USER app
 
 RUN npm install --production
 
-COPY /entrypoint.sh /home/app/entrypoint.sh
-
 #bandwidth limites
 ENV LIMIT_UPLOAD 50
 ENV LIMIT_DOWNLOAD 9000
